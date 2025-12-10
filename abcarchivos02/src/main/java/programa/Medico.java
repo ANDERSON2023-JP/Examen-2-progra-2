@@ -1,77 +1,74 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package programa;
 import com.google.gson.Gson;
-import java.io.File;
+import java.io.*;
 import java.io.FileReader;
 import java.io.FileWriter;
 public class Medico {
-    private int IdMed;
+    private int idMed;
     private String nombreMed;
     private String apellidoMed;
     private int aniosExperiencia;
+    
 
-    public Medico(int IdMed, String nombreMed, String apellidoMed, int aniosExperiencia) {
-        this.IdMed = IdMed;
+    public Medico(int idMed, String nombreMed, String apellidoMed, int aniosExperiencia) {
+        this.idMed = idMed;
         this.nombreMed = nombreMed;
         this.apellidoMed = apellidoMed;
         this.aniosExperiencia = aniosExperiencia;
+        
     }
 
     public Medico() {
-            this.IdMed = -1;
-            this.nombreMed = "";
-            this.apellidoMed = "";
-            this.aniosExperiencia=-1;
+        this.idMed = -1;
+        this.nombreMed = "";
+        this.apellidoMed = "";
+        this.aniosExperiencia = -1;
     }
-    public void Alta(){
-        String ruta = "archivosMedicos/medicos"+IdMed+".json";
-        Gson gson = new Gson();
-        
+    public void alta(){
+        String ruta = "archivoMedicos/medicos"+idMed+".json";
+        Gson gson=new Gson();
         try {
             FileWriter w = new FileWriter(ruta);
             gson.toJson(this, w);
             w.close();
-            System.out.println("\t\t---ALTA DE MEDICOS CORRECTO---");
-        } catch (Exception e) {
-            System.out.println("ERROR EN ALTA MEDICOS: \n\n"+e);
+            System.out.println("\t\t ALTA DE MEDICOS CORRECTA");
+        }catch (Exception e){
+            System.out.println("ERROR DE ALTA EN MEDICOS:\n\n" +e);
+            
         }
     }
     public void cargar(String ruta){
         Gson gson = new Gson();
         try {
             FileReader r = new FileReader(ruta);
-            Medico f = gson.fromJson(r, Medico.class);
-            this.IdMed = f.getIdMed();
-            this.nombreMed = f.getNombreMed();
-            this.apellidoMed = f.getApellidoMed();
-            this.aniosExperiencia= f.getAniosExperiencia();
+            Medico m = gson.fromJson(r, Medico.class);
+            this.idMed=m.getIdMed();
+            this.nombreMed=m.getNombreMed();
+            this.apellidoMed=m.getApellidoMed();
+            this.aniosExperiencia=m.getAniosExperiencia();
             r.close();
-            
-            System.out.println("\t\t---CARGA DE MEDICOS CORRECTO---");
-        } catch (Exception e) {
-            System.out.println("ERROR EN CARGA MEDICOS:\n\n"+e);
+            System.out.println("\t\t CARGA DE MEDICOS CORRECTA");
+        }catch (Exception e){
+           System.out.println("ERROR DE CARGA DE MEDICOS:\n\n" + e);
         }
+        
     }
     public void baja(){
-        String ruta = "archivosMedicos/medico"+IdMed+".json";
-        
+        String ruta  = "archivoMedicos/medicos"+idMed+".json";
         File archivo = new File(ruta);
         if(archivo.delete()){
-            System.out.println("SE ELIMINO CORRECTAMENTE EL ARCHIVO "+archivo.getPath());
+            System.out.println("SE ELIMINO CORRECTAMENTE"+archivo.getPath());
         }else{
-            System.out.println("ERROR EN ELIMINACION DEL ARCHIVO "+archivo.getPath());
+            System.out.println("ERROR AL ELIMINAR "+archivo.getPath());
         }
     }
 
     public int getIdMed() {
-        return IdMed;
+        return idMed;
     }
 
-    public void setIdMed(int IdMed) {
-        this.IdMed = IdMed;
+    public void setIdMed(int idMed) {
+        this.idMed = idMed;
     }
 
     public String getNombreMed() {
@@ -100,7 +97,7 @@ public class Medico {
 
     @Override
     public String toString() {
-        return "Medico{" + "IdMed=" + IdMed + ", nombreMed=" + nombreMed + ", apellidoMed=" + apellidoMed + ", aniosExperiencia=" + aniosExperiencia + '}';
+        return "Medico{" + "idMed=" + idMed + ", nombreMed=" + nombreMed + ", apellidoMed=" + apellidoMed + ", aniosExperiencia=" + aniosExperiencia + '}';
     }
     
     
