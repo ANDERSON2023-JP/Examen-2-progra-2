@@ -1,6 +1,6 @@
 package programa;
 import com.google.gson.Gson;
-import java.io.File;
+import java.io.*;
 import java.io.FileReader;
 import java.io.FileWriter;
 public class Consulta {
@@ -21,28 +21,54 @@ public class Consulta {
         this.mes = mes;
         this.anio = anio;
     }
-    
-
     public Consulta() {
-        this.ci=-1;
-        this.nombrePaciente="";
-        this.apellidoPaciente="";
-        this.idMed= -1;
-        this.dia=-1;
-        this.mes="";
-        this.anio=-1;
+        this.ci = -1;
+        this.nombrePaciente = "";
+        this.apellidoPaciente = "";
+        this.idMed = -1;
+        this.dia = -1;
+        this.mes = "";
+        this.anio = -1;
     }
     public void alta(){
-        String ruta = "archivosConsultas/consulta"+ +".json";
-        Gson gson = new Gson();
-        
+        String ruta = "archivoConsultas/consultas"+dia+".json";
+        Gson gson=new Gson();    
         try {
             FileWriter w = new FileWriter(ruta);
             gson.toJson(this, w);
             w.close();
-            System.out.println("\t\t---ALTA DE MEDICOS");
-        } catch (Exception e) {
-            System.out.println("ERROR EN ALTA FACTURA:\n\n"+e);
+            System.out.println("\t\t ALTA DE CONSULTA CORRECTA");
+        }catch (Exception e){
+            System.out.println("ERROR DE ALTA EN COLSULTAS:\n\n" + e);
+            
+        }
+    }
+    public void cargar(String ruta){
+        Gson gson = new Gson();
+        try {
+            FileReader r = new FileReader(ruta);
+            Consulta c = gson.fromJson(r, Consulta.class);
+            this.ci= c.getCi();
+            this.nombrePaciente= c .getNombrePaciente();
+            this.apellidoPaciente= c.getApellidoPaciente();
+            this.idMed= c.getIdMed();
+            this.dia= c.getDia();
+            this.mes= c.getMes();
+            this.anio=c.getAnio();
+            r.close();
+            System.out.println("\t\t CARGA DE CONSULTA CORRECTA");
+        }catch (Exception e){
+           System.out.println("ERROR DE CARGA EN COLSULTAS:\n\n" + e);
+        }
+        
+    }
+    public void baja(){
+        String ruta = "archivoConsultas/consultas"+dia+".json";
+        File archivo = new File(ruta);
+        if(archivo.delete()){
+            System.out.println("SE ELIMINO CORRECTAMENTE el consultorio"+archivo.getPath());
+        }else{
+            System.out.println("ERROR AL ELIMINAR el consultorio "+archivo.getPath());
         }
     }
 
@@ -85,12 +111,34 @@ public class Consulta {
     public void setDia(int dia) {
         this.dia = dia;
     }
-    
+
+    public String getMes() {
+        return mes;
+    }
+
+    public void setMes(String mes) {
+        this.mes = mes;
+    }
+
+    public int getAnio() {
+        return anio;
+    }
+
+    public void setAnio(int anio) {
+        this.anio = anio;
+    }
 
     @Override
     public String toString() {
-        return "Consulta{" + "ci=" + ci + ", nombrePaciente=" + nombrePaciente + ", apellidoPaciente=" + apellidoPaciente + ", idMed=" + idMed + ", dia=" + dia + ", mes=" + mes + ", anios=" + anios + '}';
+        return "Consulta{" + "ci=" + ci + ", nombrePaciente=" + nombrePaciente + ", apellidoPaciente=" + apellidoPaciente + ", idMed=" + idMed + ", dia=" + dia + ", mes=" + mes + ", anio=" + anio + '}';
     }
+    
+
     
     
 }
+
+    
+    
+}
+
